@@ -36,8 +36,17 @@ export class MemsService {
     });
   }
 
-  async findAll() {
-    return this.prismaService.mem.findMany();
+  async findAll(search?: string) {
+    return this.prismaService.mem.findMany({
+      where: search
+        ? {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          }
+        : undefined,
+    });
   }
 
   async findOne(id: string) {

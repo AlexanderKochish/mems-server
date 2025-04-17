@@ -10,6 +10,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { MemsService } from './mems.service';
 import { UpdateMemDto } from './dto/update-mem.dto';
@@ -33,9 +34,9 @@ export class MemsController {
     }
   }
   @Get()
-  async findAll() {
+  async findAll(@Query('search') search: string) {
     try {
-      const mems = await this.memsService.findAll();
+      const mems = await this.memsService.findAll(search);
       return mems;
     } catch (error) {
       console.error('Error fetching memes:', error);
