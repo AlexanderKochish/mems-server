@@ -62,9 +62,18 @@ export class MemsService {
   async update(id: string, dto: UpdateMemDto) {
     const mem = await this.findOne(id);
 
+    const updateData: UpdateMemDto = {
+      title: dto.title,
+      desc: dto.desc ?? '',
+      likes: dto.likes,
+    };
+
+    if (dto.image) {
+      updateData.image = dto.image;
+    }
     const editedMem = await this.prismaService.mem.update({
       where: { id: mem.id },
-      data: { ...dto },
+      data: updateData,
     });
     return editedMem;
   }
